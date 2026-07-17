@@ -25,14 +25,11 @@ El sistema se compone de las siguientes capas:
 | Base de conocimiento | Vector Store en memoria (n8n) | Almacena los documentos indexados para búsqueda semántica |
 | Interfaz | Chat público de n8n | Punto de acceso para que cualquier usuario hable con el agente |
 
-
 **¿Por qué esta arquitectura?**
 
 Se optó por **OCI Compute (IaaS)** en lugar de un servicio administrado, para tener control total sobre la configuración del entorno y cumplir con el requisito de despliegue en OCI del Challenge. Se eligió **n8n** como motor del agente por su enfoque visual, que permite construir flujos RAG complejos (documentos → embeddings → búsqueda vectorial → LLM) sin escribir código, ideal para iterar rápido bajo tiempo limitado. **Groq** y **Cohere** se seleccionaron por ofrecer capas gratuitas suficientes para el alcance del proyecto y buen soporte multilingüe.
 
-
 ## 🧠 Cómo funciona el RAG (Retrieval-Augmented Generation)
-
 El agente no responde de memoria ni improvisa: cada respuesta se basa en documentos reales del negocio, indexados y recuperados por significado semántico. El proceso ocurre en dos flujos separados dentro de n8n:
 
 ### Flujo 1 — Carga de documentos (`Carga-documentos.json`)
@@ -54,6 +51,22 @@ Se activa cada vez que un usuario envía un mensaje:
 5. Una memoria de sesión (Simple Memory) permite que el agente mantenga contexto durante la conversación.
 
 **Nota de diseño:** el Vector Store usado (Simple Vector Store) almacena los datos en memoria del contenedor, no en disco. Esto significa que si el contenedor de n8n se reinicia, es necesario volver a ejecutar el Flujo 1 (Carga de documentos) para reconstruir la base de conocimiento. Se optó por esta solución por su simplicidad de configuración, adecuada al alcance y tiempo del Challenge; para producción real se recomendaría una base vectorial persistente (ej. Postgres + PGVector).
+
+
+## 🛠️ Tecnologías y herramientas utilizadas
+
+| Categoría | Herramienta |
+|---|---|
+| Cloud / Infraestructura | Oracle Cloud Infrastructure (Compute, IaaS) |
+| Contenerización | Docker |
+| Automatización / Orquestación del agente | n8n (self-hosted) |
+| Modelo de lenguaje (LLM) | Groq — Llama 3.3 70B Versatile |
+| Embeddings | Cohere — Embed Multilingual v3.0 |
+| Control de versiones | Git / GitHub |
+| Sistema operativo del servidor | Ubuntu 20.04 |
+
+
+
 
 
 ## 📋 Estado del proyecto
