@@ -29,6 +29,7 @@ El sistema se compone de las siguientes capas:
 
 Se optó por **OCI Compute (IaaS)** en lugar de un servicio administrado, para tener control total sobre la configuración del entorno y cumplir con el requisito de despliegue en OCI del Challenge. Se eligió **n8n** como motor del agente por su enfoque visual, que permite construir flujos RAG complejos (documentos → embeddings → búsqueda vectorial → LLM) sin escribir código, ideal para iterar rápido bajo tiempo limitado. **Groq** y **Cohere** se seleccionaron por ofrecer capas gratuitas suficientes para el alcance del proyecto y buen soporte multilingüe.
 
+
 ## 🧠 Cómo funciona el RAG (Retrieval-Augmented Generation)
 El agente no responde de memoria ni improvisa: cada respuesta se basa en documentos reales del negocio, indexados y recuperados por significado semántico. El proceso ocurre en dos flujos separados dentro de n8n:
 
@@ -52,7 +53,6 @@ Se activa cada vez que un usuario envía un mensaje:
 
 **Nota de diseño:** el Vector Store usado (Simple Vector Store) almacena los datos en memoria del contenedor, no en disco. Esto significa que si el contenedor de n8n se reinicia, es necesario volver a ejecutar el Flujo 1 (Carga de documentos) para reconstruir la base de conocimiento. Se optó por esta solución por su simplicidad de configuración, adecuada al alcance y tiempo del Challenge; para producción real se recomendaría una base vectorial persistente (ej. Postgres + PGVector).
 
-
 ## 🛠️ Tecnologías y herramientas utilizadas
 
 | Categoría | Herramienta |
@@ -66,6 +66,39 @@ Se activa cada vez que un usuario envía un mensaje:
 | Sistema operativo del servidor | Ubuntu 20.04 |
 
 
+## 🚀 Instrucciones para ejecutar el proyecto
+
+### Requisitos previos
+- Cuenta de Oracle Cloud Infrastructure (capa Always Free).
+- Cuenta gratuita en [Groq](https://console.groq.com) y [Cohere](https://dashboard.cohere.com).
+- Docker instalado en el servidor.
+
+### Pasos
+
+1. **Levantar el servidor**: crear una instancia Compute en OCI (Ubuntu, shape Always Free) y conectarse por SSH.
+2. **Instalar Docker**:
+```bash
+   curl -fsSL https://get.docker.com -o get-docker.sh
+   sudo sh get-docker.sh
+   sudo usermod -aG docker $USER
+```
+3. **Levantar n8n**:
+```bash
+   docker run -d --name n8n --restart unless-stopped -p 5678:5678 \
+     -v ~/n8n-data:/home/node/.n8n \
+     -e N8N_SECURE_COOKIE=false \
+     -e WEBHOOK_URL=http://TU_IP_PUBLICA:5678/ \
+     -e N8N_EDITOR_BASE_URL=http://TU_IP_PUBLICA:5678/ \
+     docker.n8n.io/n8nio/n8n
+```
+4. **Abrir el puerto 5678** en la Security List de OCI (Ingress Rule, TCP, `0.0.0.0/0`) y en el firewall interno del servidor:
+```bash
+   sudo iptables -I INPUT -p tcp --dport 5678 -j ACCEPT
+```
+5. **Importar los flujos**: entrar a `http://TU_IP_PUBLICA:5678`, crear la cuenta de owner, e importar `n8n-workflow/agente-chat.json` y `n8n-workflow/Carga-documentos.json`.
+6. **Configurar credenciales**: agregar las API Keys de Groq y Cohere en n8n (Credentials → New).
+7. **Cargar la base de conocimiento**: ejecutar manualmente el flujo `Carga-documentos.json` (botón "Execute workflow").
+8. **Publicar y usar el agente**: en el flujo `agente-chat.json`, publicar el workflow y abrir el chat público con el botón "Open chat".
 
 
 
