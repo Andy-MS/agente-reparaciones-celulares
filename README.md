@@ -102,6 +102,15 @@ Se activa cada vez que un usuario envía un mensaje:
 7. **Cargar la base de conocimiento**: ejecutar manualmente el flujo `Carga-documentos.json` (botón "Execute workflow").
 8. **Publicar y usar el agente**: en el flujo `agente-chat.json`, publicar el workflow y abrir el chat público con el botón "Open chat".
 
+## Despliegue en la nube (OCI)
+
+El proyecto está desplegado en una instancia de cómputo de **Oracle Cloud Infrastructure (OCI)**, usando el servicio **OCI Compute** (VM.Standard.E2.1.Micro, Ubuntu 20.04).
+
+Dentro de esa instancia corre **n8n** en un contenedor Docker, que expone el flujo del agente y el chat a través de un puerto público. Esto significa que el agente no corre en local: está accesible desde cualquier navegador mientras el servidor esté activo, y las capturas de este README fueron tomadas directamente desde esa dirección pública, no desde un entorno local de desarrollo.
+
+**URL pública del proyecto:** `http://150.136.142.164:5678/`
+
+> Nota: n8n corre en un puerto no estándar (5678) y sin certificado SSL configurado, por lo que el navegador puede marcar la conexión como "No segura" — esto es esperado en este entorno de despliegue experimental.
 
 
 ## Ejemplos de uso
