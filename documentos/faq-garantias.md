@@ -19,7 +19,7 @@
 - Reinstalación de sistema / flasheo 
 - Eliminación de virus o malware 
 
-## Tiempos promedio: 
+## Tiempos promedio de reparación: 
 En caso de reparación de hardwre dependera si la pieza se encuentra en existencia en ese momento.
 - Reparación menor 1 día 
 - Reparación mayor 2 a 3 días
