@@ -53,6 +53,7 @@ Se activa cada vez que un usuario envía un mensaje:
 
 **Nota de diseño:** el Vector Store usado (Simple Vector Store) almacena los datos en memoria del contenedor, no en disco. Esto significa que si el contenedor de n8n se reinicia, es necesario volver a ejecutar el Flujo 1 (Carga de documentos) para reconstruir la base de conocimiento. Se optó por esta solución por su simplicidad de configuración, adecuada al alcance y tiempo del Challenge; para producción real se recomendaría una base vectorial persistente (ej. Postgres + PGVector).
 
+
 ## 🛠️ Tecnologías y herramientas utilizadas
 
 | Categoría | Herramienta |
@@ -64,6 +65,7 @@ Se activa cada vez que un usuario envía un mensaje:
 | Embeddings | Cohere — Embed Multilingual v3.0 |
 | Control de versiones | Git / GitHub |
 | Sistema operativo del servidor | Ubuntu 20.04 |
+
 
 
 ## 🚀 Instrucciones para ejecutar el proyecto
@@ -101,6 +103,36 @@ Se activa cada vez que un usuario envía un mensaje:
 8. **Publicar y usar el agente**: en el flujo `agente-chat.json`, publicar el workflow y abrir el chat público con el botón "Open chat".
 
 
+
+## Ejemplos de uso
+
+El agente responde en tiempo real consultando la base de conocimiento (RAG) desplegada en OCI.
+Las capturas incluyen URL pública del proyecto: **`http://150.136.142.164:5678/`**
+
+### Política de datos personales
+**Pregunta:** ¿Cuáles son sus políticas para la recolección de mis datos personales?
+
+![Política de datos](capturas/pregunta-datos-personales.png)
+
+### Costo de recolección y entrega
+**Pregunta:** ¿Cuál es el costo de recolección y entrega?
+
+![Costo de recolección](capturas/pregunta-costo-recoleccion.png)
+
+### Cancelación tras revisión
+**Pregunta:** Si decido no reparar mi equipo después de la revisión, ¿me cobran algo?
+
+![Cancelación](capturas/pregunta-cancelacion-revision.png)
+
+### Precio de reparación
+**Pregunta:** ¿Cuánto cuesta cambiar la pantalla de un celular gama media?
+
+![Precio pantalla](capturas/pregunta-precio-pantalla.png)
+
+### Garantías
+**Pregunta:** ¿Qué garantía tienen las reparaciones?
+
+![Garantías](capturas/pregunta-garantias.png)
 
 ## 📋 Estado del proyecto
 
