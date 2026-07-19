@@ -112,17 +112,16 @@ Dentro de esa instancia corre **n8n** en un contenedor Docker, que expone el flu
 
 > Nota: n8n corre en un puerto no estándar (5678) y sin certificado SSL configurado, por lo que el navegador puede marcar la conexión como "No segura" — esto es esperado en este entorno de despliegue experimental.
 
-
-## Ejemplos de uso
-
-El agente responde en tiempo real consultando la base de conocimiento (RAG) desplegada en OCI.
-Las capturas incluyen URL pública del proyecto: **`http://150.136.142.164:5678/`**
-
 ## Demo en video
 
 El siguiente video muestra al agente respondiendo en tiempo real a través del chat desplegado en OCI, consultando la base de conocimiento (RAG) para dar una respuesta precisa basada en los documentos del negocio.
 
 https://github.com/user-attachments/assets/5d615b22-05db-48d6-8e76-968ec1bc9a6c
+
+## Ejemplos de uso
+
+El agente responde en tiempo real consultando la base de conocimiento (RAG) desplegada en OCI.
+Las capturas incluyen URL pública del proyecto: **`http://150.136.142.164:5678/`**
 
 ### Política de datos personales
 **Pregunta:** ¿Cuáles son sus políticas para la recolección de mis datos personales?
@@ -160,14 +159,4 @@ https://github.com/user-attachments/assets/5d615b22-05db-48d6-8e76-968ec1bc9a6c
 > **Nota:** Esta captura fue tomada después de resolver un problema de ambigüedad semántica en el sistema RAG. Originalmente, dos documentos distintos usaban la palabra "recolección" en contextos diferentes (recolección del equipo físico vs. recolección de datos personales del cliente), lo que causaba que el motor de búsqueda vectorial priorizara el documento incorrecto. La solución fue renombrar los términos en `politica-datos-recoleccion.md` de "recolección de datos" a "captura de datos", eliminando la ambigüedad y permitiendo que el agente identifique correctamente el contexto de cada pregunta.
 
 
-
 ![Proceso de recolección](capturas/pregunta-proceso-recoleccion-completo.png)
-
-## 📋 Estado del proyecto
-
-- [x] Infraestructura desplegada en OCI (Compute, VM.Standard.E2.1.Micro, Ubuntu)
-- [x] n8n instalado vía Docker y accesible públicamente
-- [x] Flujo base del agente (Chat → AI Agent → Groq + Memoria + Vector Store)
-- [x] Carga de documentos a la base de conocimiento
-- [x] Pruebas de respuesta del agente
-- [ ] Video/captura de evidencia funcionando en la nube
