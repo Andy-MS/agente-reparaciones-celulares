@@ -118,6 +118,12 @@ Dentro de esa instancia corre **n8n** en un contenedor Docker, que expone el flu
 El agente responde en tiempo real consultando la base de conocimiento (RAG) desplegada en OCI.
 Las capturas incluyen URL pública del proyecto: **`http://150.136.142.164:5678/`**
 
+## Demo en video
+
+El siguiente video muestra al agente respondiendo en tiempo real a través del chat desplegado en OCI, consultando la base de conocimiento (RAG) para dar una respuesta precisa basada en los documentos del negocio.
+
+https://github.com/user-attachments/assets/5d615b22-05db-48d6-8e76-968ec1bc9a6c
+
 ### Política de datos personales
 **Pregunta:** ¿Cuáles son sus políticas para la recolección de mis datos personales?
 
@@ -152,6 +158,8 @@ Las capturas incluyen URL pública del proyecto: **`http://150.136.142.164:5678/
 **Pregunta:** ¿Cómo es el proceso de recolección?
 
 > **Nota:** Esta captura fue tomada después de resolver un problema de ambigüedad semántica en el sistema RAG. Originalmente, dos documentos distintos usaban la palabra "recolección" en contextos diferentes (recolección del equipo físico vs. recolección de datos personales del cliente), lo que causaba que el motor de búsqueda vectorial priorizara el documento incorrecto. La solución fue renombrar los términos en `politica-datos-recoleccion.md` de "recolección de datos" a "captura de datos", eliminando la ambigüedad y permitiendo que el agente identifique correctamente el contexto de cada pregunta.
+
+
 
 ![Proceso de recolección](capturas/pregunta-proceso-recoleccion-completo.png)
 
