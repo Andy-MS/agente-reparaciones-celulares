@@ -143,11 +143,23 @@ Las capturas incluyen URL pública del proyecto: **`http://150.136.142.164:5678/
 
 ![Garantías](capturas/pregunta-garantias.png)
 
+### Precio de cambio de batería
+**Pregunta:** ¿Cuál es el precio de un cambio de batería para un celular de gama media?
+
+![Precio de batería](capturas/pregunta-precio-bateria.png)
+
+### Proceso completo de recolección
+**Pregunta:** ¿Cómo es el proceso de recolección?
+
+> **Nota:** Esta captura fue tomada después de resolver un problema de ambigüedad semántica en el sistema RAG. Originalmente, dos documentos distintos usaban la palabra "recolección" en contextos diferentes (recolección del equipo físico vs. recolección de datos personales del cliente), lo que causaba que el motor de búsqueda vectorial priorizara el documento incorrecto. La solución fue renombrar los términos en `politica-datos-recoleccion.md` de "recolección de datos" a "captura de datos", eliminando la ambigüedad y permitiendo que el agente identifique correctamente el contexto de cada pregunta.
+
+![Proceso de recolección](capturas/pregunta-proceso-recoleccion-completo.png)
+
 ## 📋 Estado del proyecto
 
 - [x] Infraestructura desplegada en OCI (Compute, VM.Standard.E2.1.Micro, Ubuntu)
 - [x] n8n instalado vía Docker y accesible públicamente
 - [x] Flujo base del agente (Chat → AI Agent → Groq + Memoria + Vector Store)
-- [ ] Carga de documentos a la base de conocimiento
-- [ ] Pruebas de respuesta del agente
+- [x] Carga de documentos a la base de conocimiento
+- [x] Pruebas de respuesta del agente
 - [ ] Video/captura de evidencia funcionando en la nube
