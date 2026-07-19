@@ -1,0 +1,178 @@
+{
+  "name": "Analyze Tech — Agente Inteligente de Reparación de Celulares",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "initialMessages": "¡Hola! 👋\nSoy el asistente virtual de Analyze Tech. Puedo ayudarte con información sobre reparaciones, precios, tiempos de entrega y garantías. ¿En qué te puedo ayudar hoy?",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.4,
+      "position": [
+        0,
+        0
+      ],
+      "id": "09d17c96-b3bf-48d1-99ac-baff7eefc756",
+      "name": "When chat message received",
+      "webhookId": "05592781-7405-4e16-abc4-d907333517ed"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "Eres un asistente virtual de un negocio de reparación de celulares. Tu trabajo es responder preguntas de clientes sobre precios de reparación, tiempos de entrega, garantías, tipos de servicio, proceso de recolección y entrega, cancelaciones, y políticas de manejo de datos.\n\nSIEMPRE que el cliente pregunte algo relacionado con estos temas, debes usar la herramienta de búsqueda (Simple Vector Store) para consultar la información antes de responder. No respondas de memoria ni inventes datos.\n\nSi después de consultar la herramienta no encuentras información relevante, dilo claramente y ofrece contactar al negocio directamente. No digas \"no tengo información\" sin haber consultado la herramienta primero.\n\nResponde siempre en español, de forma clara y amable."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "d055b3e6-f59b-459a-9b95-c56e3c33d595",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "llama-3.3-70b-versatile",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "11f5bb47-c784-497d-822a-a6747fa356e9",
+      "name": "Groq Chat Model",
+      "credentials": {
+        "groqApi": {
+          "id": "PFaIAI8PZ4ofgwOk",
+          "name": "Groq account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        224,
+        208
+      ],
+      "id": "6126a335-f620-44c1-9bee-e147d54087c0",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "mode": "retrieve-as-tool",
+        "toolDescription": "Usa esta herramienta para responder preguntas sobre precios de reparación, costos y tiempos de entrega, garantías, tipos de servicio (pantalla, batería, puerto de carga, etc.), políticas del negocio de reparación de celulares y cancelación.",
+        "memoryKey": {
+          "__rl": true,
+          "value": "conocimiento_reparaciones",
+          "mode": "id"
+        },
+        "topK": 8
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreInMemory",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        112
+      ],
+      "id": "c04434e7-74f7-4128-8f10-3bce03626f20",
+      "name": "Simple Vector Store"
+    },
+    {
+      "parameters": {
+        "modelName": "embed-english-v3.0"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsCohere",
+      "typeVersion": 1,
+      "position": [
+        400,
+        208
+      ],
+      "id": "3d96c9e7-dae5-479a-acfa-30e3461ee1af",
+      "name": "Embeddings Cohere",
+      "credentials": {
+        "cohereApi": {
+          "id": "pxChHrYfrjoICUgV",
+          "name": "Cohere account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Vector Store": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Cohere": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Simple Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "1205ae15-321d-4a21-a43f-3d2951448674",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "3f59cbcc2dcf2fb8644bfa1c886e1f37a5cd966780891b3ef6077f6ce9c8ee61"
+  },
+  "nodeGroups": [],
+  "id": "ndmg0MqqFJzN5Fr1",
+  "tags": []
+}
