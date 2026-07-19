@@ -1,7 +1,7 @@
-# Política de Recolección de Datos y Documentación del Servicio
+# Política de Captura de Datos y Documentación del Servicio
 
-## Datos recolectados
-Para brindar el servicio, se recolectan los siguientes datos del cliente: nombre completo, número de teléfono, y firma digital de conformidad.
+## Datos capturados
+Para brindar el servicio, se capturan los siguientes datos del cliente: nombre completo, número de teléfono, y firma digital de conformidad.
 
 ## Uso de los datos
 Estos datos se utilizan exclusivamente para:
